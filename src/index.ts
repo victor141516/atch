@@ -23,8 +23,20 @@ export type EventHandlerMap<Events extends Record<EventType, unknown>> = Map<
 export interface Emitter<Events extends Record<EventType, unknown>> {
 	all: EventHandlerMap<Events>;
 
-	on<Key extends keyof Events>(type: Key, handler: Handler<Events[Key]>): void;
-	on(type: '*', handler: WildcardHandler<Events>): void;
+	on<Key extends keyof Events>(
+		type: Key,
+		handler: Handler<Events[Key]>
+	): () => void;
+	on(type: '*', handler: WildcardHandler<Events>): () => void;
+
+	once<Key extends keyof Events>(
+		type: Key,
+		handler: Handler<Events[Key]>
+	): () => void;
+	once(type: '*', handler: WildcardHandler<Events>): () => void;
+
+	waitFor<Key extends keyof Events>(type: Key): Promise<Events[Key]>;
+	waitFor(type: '*'): Promise<Events[any]>;
 
 	off<Key extends keyof Events>(
 		type: Key,
@@ -39,11 +51,11 @@ export interface Emitter<Events extends Record<EventType, unknown>> {
 }
 
 /**
- * Mitt: Tiny (~200b) functional event emitter / pubsub.
- * @name mitt
- * @returns {Mitt}
+ * Atch: Tiny (~200b) functional event emitter / pubsub.
+ * @name atch
+ * @returns {Atch}
  */
-export default function mitt<Events extends Record<EventType, unknown>>(
+export default function atch<Events extends Record<EventType, unknown>>(
 	all?: EventHandlerMap<Events>
 ): Emitter<Events> {
 	type GenericEventHandler =
@@ -51,7 +63,7 @@ export default function mitt<Events extends Record<EventType, unknown>>(
 		| WildcardHandler<Events>;
 	all = all || new Map();
 
-	return {
+	const instance = {
 		/**
 		 * A Map of event names to registered handler functions.
 		 */
@@ -61,7 +73,8 @@ export default function mitt<Events extends Record<EventType, unknown>>(
 		 * Register an event handler for the given type.
 		 * @param {string|symbol} type Type of event to listen for, or `'*'` for all events
 		 * @param {Function} handler Function to call in response to given event
-		 * @memberOf mitt
+		 * @returns {Function} De-register function which will undo the event registration
+		 * @memberOf atch
 		 */
 		on<Key extends keyof Events>(type: Key, handler: GenericEventHandler) {
 			const handlers: Array<GenericEventHandler> | undefined = all!.get(type);
@@ -70,6 +83,36 @@ export default function mitt<Events extends Record<EventType, unknown>>(
 			} else {
 				all!.set(type, [handler] as EventHandlerList<Events[keyof Events]>);
 			}
+			return () => instance.off(type, handler);
+		},
+
+		/**
+		 * Register an event handler for the given type that will only be called once.
+		 * @param {string|symbol} type Type of event to listen for, or `'*'` for all events
+		 * @param {Function} handler Function to call in response to given event
+		 * @returns {Function} De-register function which will undo the event registration
+		 * @memberOf atch
+		 */
+		once<Key extends keyof Events>(type: Key, handler: GenericEventHandler) {
+			const onceHandler: GenericEventHandler = (
+				...args: Parameters<GenericEventHandler>
+			) => {
+				instance.off(type, onceHandler);
+				return handler(...(args as [any, any]));
+			};
+			return instance.on(type, onceHandler);
+		},
+
+		/**
+		 * Wait for the next event of type to be emitted.
+		 * @param {string|symbol} type Type of event to wait for
+		 * @returns {Promise<Any>} Promise that will resolve when the event is emitted
+		 * @memberOf atch
+		 */
+		waitFor<Key extends keyof Events>(type: Key) {
+			return new Promise<Events[Key]>((resolve) => {
+				instance.once(type, (e: any) => resolve(e));
+			});
 		},
 
 		/**
@@ -77,7 +120,7 @@ export default function mitt<Events extends Record<EventType, unknown>>(
 		 * If `handler` is omitted, all handlers of the given type are removed.
 		 * @param {string|symbol} type Type of event to unregister `handler` from (`'*'` to remove a wildcard handler)
 		 * @param {Function} [handler] Handler function to remove
-		 * @memberOf mitt
+		 * @memberOf atch
 		 */
 		off<Key extends keyof Events>(type: Key, handler?: GenericEventHandler) {
 			const handlers: Array<GenericEventHandler> | undefined = all!.get(type);
@@ -98,7 +141,7 @@ export default function mitt<Events extends Record<EventType, unknown>>(
 		 *
 		 * @param {string|symbol} type The event type to invoke
 		 * @param {Any} [evt] Any value (object is recommended and powerful), passed to each handler
-		 * @memberOf mitt
+		 * @memberOf atch
 		 */
 		emit<Key extends keyof Events>(type: Key, evt?: Events[Key]) {
 			let handlers = all!.get(type);
@@ -120,4 +163,6 @@ export default function mitt<Events extends Record<EventType, unknown>>(
 			}
 		}
 	};
+
+	return instance;
 }

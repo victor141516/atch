@@ -1,96 +1,87 @@
 <p align="center">
-  <img src="https://i.imgur.com/BqsX9NT.png" width="300" height="300" alt="mitt">
+  <img src="https://i.imgur.com/BqsX9NT.png" width="300" height="300" alt="atch">
   <br>
-  <a href="https://www.npmjs.org/package/mitt"><img src="https://img.shields.io/npm/v/mitt.svg" alt="npm"></a>
-  <img src="https://github.com/developit/mitt/workflows/CI/badge.svg" alt="build status">
-  <a href="https://unpkg.com/mitt/dist/mitt.js"><img src="https://img.badgesize.io/https://unpkg.com/mitt/dist/mitt.js?compression=gzip" alt="gzip size"></a>
+  <a href="https://www.npmjs.org/package/@victor141516/atch"><img src="https://img.shields.io/npm/v/atch.svg" alt="npm"></a>
+  <img src="https://github.com/victor141516/atch/workflows/CI/badge.svg" alt="build status">
+  <a href="https://unpkg.com/atch/dist/atch.js"><img src="https://img.badgesize.io/https://unpkg.com/atch/dist/atch.js?compression=gzip" alt="gzip size"></a>
 </p>
 
-# Mitt
+# Atch
 
 > Tiny 200b functional event emitter / pubsub.
 
--   **Microscopic:** weighs less than 200 bytes gzipped
--   **Useful:** a wildcard `"*"` event type listens to all events
--   **Familiar:** same names & ideas as [Node's EventEmitter](https://nodejs.org/api/events.html#events_class_eventemitter)
--   **Functional:** methods don't rely on `this`
--   **Great Name:** somehow [mitt](https://npm.im/mitt) wasn't taken
+- **Microscopic:** weighs less than 200 bytes gzipped
+- **Useful:** a wildcard `"*"` event type listens to all events
+- **Familiar:** same names & ideas as [Node's EventEmitter](https://nodejs.org/api/events.html#events_class_eventemitter)
+- **Functional:** methods don't rely on `this`
 
-Mitt was made for the browser, but works in any JavaScript runtime. It has no dependencies and supports IE9+.
+Atch was made for the browser, but works in any JavaScript runtime. It has no dependencies and supports IE9+.
 
 ## Table of Contents
 
--   [Install](#install)
--   [Usage](#usage)
--   [Examples & Demos](#examples--demos)
--   [API](#api)
--   [Contribute](#contribute)
--   [License](#license)
+- [Install](#install)
+- [Usage](#usage)
+- [Examples & Demos](#examples--demos)
+- [API](#api)
+- [Contribute](#contribute)
+- [License](#license)
 
 ## Install
 
 This project uses [node](http://nodejs.org) and [npm](https://npmjs.com). Go check them out if you don't have them locally installed.
 
 ```sh
-$ npm install --save mitt
+$ npm install --save @victor141516/atch
 ```
 
 Then with a module bundler like [rollup](http://rollupjs.org/) or [webpack](https://webpack.js.org/), use as you would anything else:
 
 ```javascript
 // using ES6 modules
-import mitt from 'mitt'
+import atch from '@victor141516/atch';
 
 // using CommonJS modules
-var mitt = require('mitt')
+var atch = require('@victor141516/atch');
 ```
-
-The [UMD](https://github.com/umdjs/umd) build is also available on [unpkg](https://unpkg.com):
-
-```html
-<script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
-```
-
-You can find the library on `window.mitt`.
 
 ## Usage
 
 ```js
-import mitt from 'mitt'
+import atch from '@victor141516/atch';
 
-const emitter = mitt()
+const emitter = atch();
 
 // listen to an event
-emitter.on('foo', e => console.log('foo', e) )
+emitter.on('foo', (e) => console.log('foo', e));
 
 // listen to all events
-emitter.on('*', (type, e) => console.log(type, e) )
+emitter.on('*', (type, e) => console.log(type, e));
 
 // fire an event
-emitter.emit('foo', { a: 'b' })
+emitter.emit('foo', { a: 'b' });
 
 // clearing all events
-emitter.all.clear()
+emitter.all.clear();
 
 // working with handler references:
 function onFoo() {}
-emitter.on('foo', onFoo)   // listen
-emitter.off('foo', onFoo)  // unlisten
+emitter.on('foo', onFoo); // listen
+emitter.off('foo', onFoo); // unlisten
 ```
 
 ### Typescript
 
-Set `"strict": true` in your tsconfig.json to get improved type inference for `mitt` instance methods.
+Set `"strict": true` in your tsconfig.json to get improved type inference for `atch` instance methods.
 
 ```ts
-import mitt from 'mitt';
+import atch from '@victor141516/atch';
 
 type Events = {
   foo: string;
   bar?: number;
 };
 
-const emitter = mitt<Events>(); // inferred as Emitter<Events>
+const emitter = atch<Events>(); // inferred as Emitter<Events>
 
 emitter.on('foo', (e) => {}); // 'e' has inferred type 'string'
 
@@ -100,25 +91,25 @@ emitter.emit('foo', 42); // Error: Argument of type 'number' is not assignable t
 Alternatively, you can use the provided `Emitter` type:
 
 ```ts
-import mitt, { Emitter } from 'mitt';
+import atch, { Emitter } from '@victor141516/atch';
 
 type Events = {
   foo: string;
   bar?: number;
 };
 
-const emitter: Emitter<Events> = mitt<Events>();
+const emitter: Emitter<Events> = atch<Events>();
 ```
 
 ## Examples & Demos
 
-<a href="http://codepen.io/developit/pen/rjMEwW?editors=0110">
-  <b>Preact + Mitt Codepen Demo</b>
+<a href="http://codepen.io/victor141516/pen/rjMEwW?editors=0110">
+  <b>Preact + Atch Codepen Demo</b>
   <br>
-  <img src="https://i.imgur.com/CjBgOfJ.png" width="278" alt="preact + mitt preview">
+  <img src="https://i.imgur.com/CjBgOfJ.png" width="278" alt="preact + atch preview">
 </a>
 
-* * *
+---
 
 ## API
 
@@ -126,20 +117,24 @@ const emitter: Emitter<Events> = mitt<Events>();
 
 #### Table of Contents
 
--   [mitt](#mitt)
--   [all](#all)
--   [on](#on)
-    -   [Parameters](#parameters)
--   [off](#off)
-    -   [Parameters](#parameters-1)
--   [emit](#emit)
-    -   [Parameters](#parameters-2)
+- [atch](#atch)
+- [all](#all)
+- [on](#on)
+  - [Parameters](#parameters)
+- [once](#once)
+  - [Parameters](#parameters-1)
+- [waitFor](#waitfor)
+  - [Parameters](#parameters-2)
+- [off](#off)
+  - [Parameters](#parameters-3)
+- [emit](#emit)
+  - [Parameters](#parameters-4)
 
-### mitt
+### atch
 
-Mitt: Tiny (~200b) functional event emitter / pubsub.
+Atch: Tiny (~200b) functional event emitter / pubsub.
 
-Returns **Mitt** 
+Returns **Atch**&#x20;
 
 ### all
 
@@ -151,8 +146,31 @@ Register an event handler for the given type.
 
 #### Parameters
 
--   `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** Type of event to listen for, or `'*'` for all events
--   `handler` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** Function to call in response to given event
+- `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** Type of event to listen for, or `'*'` for all events
+- `handler` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** Function to call in response to given event
+
+Returns **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** De-register function which will undo the event registration
+
+### once
+
+Register an event handler for the given type that will only be called once.
+
+#### Parameters
+
+- `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** Type of event to listen for, or `'*'` for all events
+- `handler` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** Function to call in response to given event
+
+Returns **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** De-register function which will undo the event registration
+
+### waitFor
+
+Wait for the next event of type to be emitted.
+
+#### Parameters
+
+- `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** Type of event to wait for
+
+Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<Any>** Promise that will resolve when the event is emitted
 
 ### off
 
@@ -161,8 +179,8 @@ If `handler` is omitted, all handlers of the given type are removed.
 
 #### Parameters
 
--   `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** Type of event to unregister `handler` from, or `'*'`
--   `handler` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)?** Handler function to remove
+- `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** Type of event to unregister `handler` from (`'*'` to remove a wildcard handler)
+- `handler` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)?** Handler function to remove
 
 ### emit
 
@@ -173,8 +191,8 @@ Note: Manually firing '\*' handlers is not supported.
 
 #### Parameters
 
--   `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** The event type to invoke
--   `evt` **Any?** Any value (object is recommended and powerful), passed to each handler
+- `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** The event type to invoke
+- `evt` **Any?** Any value (object is recommended and powerful), passed to each handler
 
 ## Contribute
 
@@ -190,15 +208,15 @@ If don't, just open a [new clear and descriptive issue](../../issues/new).
 
 Pull requests are the greatest contributions, so be sure they are focused in scope, and do avoid unrelated commits.
 
--   Fork it!
--   Clone your fork: `git clone https://github.com/<your-username>/mitt`
--   Navigate to the newly cloned directory: `cd mitt`
--   Create a new branch for the new feature: `git checkout -b my-new-feature`
--   Install the tools necessary for development: `npm install`
--   Make your changes.
--   Commit your changes: `git commit -am 'Add some feature'`
--   Push to the branch: `git push origin my-new-feature`
--   Submit a pull request with full remarks documenting your changes.
+- Fork it!
+- Clone your fork: `git clone https://github.com/<your-username>/atch`
+- Navigate to the newly cloned directory: `cd atch`
+- Create a new branch for the new feature: `git checkout -b my-new-feature`
+- Install the tools necessary for development: `npm install`
+- Make your changes.
+- Commit your changes: `git commit -am 'Add some feature'`
+- Push to the branch: `git push origin my-new-feature`
+- Submit a pull request with full remarks documenting your changes.
 
 ## License
 

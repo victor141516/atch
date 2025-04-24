@@ -1,19 +1,19 @@
 {
-  "name": "mitt",
-  "version": "3.0.1",
-  "description": "Tiny 200b functional Event Emitter / pubsub.",
-  "module": "dist/mitt.mjs",
-  "main": "dist/mitt.js",
-  "jsnext:main": "dist/mitt.mjs",
-  "umd:main": "dist/mitt.umd.js",
+  "name": "@victor141516/atch",
+  "version": "3.1.0",
+  "description": "Tiny 200b functional Event Emitter / pubsub. Forked from mitt.",
+  "module": "dist/atch.mjs",
+  "main": "dist/atch.js",
+  "jsnext:main": "dist/atch.mjs",
+  "umd:main": "dist/atch.umd.js",
   "source": "src/index.ts",
   "typings": "index.d.ts",
   "exports": {
     "types": "./index.d.ts",
-    "module": "./dist/mitt.mjs",
-    "import": "./dist/mitt.mjs",
-    "require": "./dist/mitt.js",
-    "default": "./dist/mitt.mjs"
+    "module": "./dist/atch.mjs",
+    "import": "./dist/atch.mjs",
+    "require": "./dist/atch.js",
+    "default": "./dist/atch.mjs"
   },
   "scripts": {
     "test": "npm-run-all --silent typecheck lint mocha test-types",
@@ -25,18 +25,19 @@
     "build": "npm-run-all --silent clean -p bundle -s docs",
     "clean": "rimraf dist",
     "docs": "documentation readme src/index.ts --section API -q --parse-extension ts",
-    "release": "npm run -s build -s && npm t && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish"
+    "release": "npm run -s build -s && npm t && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish --access=public"
   },
-  "repository": "developit/mitt",
+  "repository": "victor141516/atch",
   "keywords": [
     "events",
     "eventemitter",
     "emitter",
     "pubsub"
   ],
-  "homepage": "https://github.com/developit/mitt",
+  "homepage": "https://github.com/victor141516/atch",
   "authors": [
-    "Jason Miller <jason@developit.ca>"
+    "Jason Miller <jason@developit.ca>",
+    "victor141516 <victor.fernandez.gabriel@gmail.com>"
   ],
   "license": "MIT",
   "files": [

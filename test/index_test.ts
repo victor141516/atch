@@ -1,28 +1,28 @@
-import mitt, { Emitter, EventHandlerMap } from '..';
+import atch, { Emitter, EventHandlerMap } from '..';
 import chai, { expect } from 'chai';
 import { spy } from 'sinon';
 import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
 
-describe('mitt', () => {
+describe('atch', () => {
 	it('should default export be a function', () => {
-		expect(mitt).to.be.a('function');
+		expect(atch).to.be.a('function');
 	});
 
 	it('should accept an optional event handler map', () => {
-		expect(() => mitt(new Map())).not.to.throw;
+		expect(() => atch(new Map())).not.to.throw;
 		const map = new Map();
 		const a = spy();
 		const b = spy();
 		map.set('foo', [a, b]);
-		const events = mitt<{ foo: undefined }>(map);
+		const events = atch<{ foo: undefined }>(map);
 		events.emit('foo');
 		expect(a).to.have.been.calledOnce;
 		expect(b).to.have.been.calledOnce;
 	});
 });
 
-describe('mitt#', () => {
+describe('atch#', () => {
 	const eventType = Symbol('eventType');
 	type Events = {
 		foo: unknown;
@@ -39,7 +39,7 @@ describe('mitt#', () => {
 
 	beforeEach(() => {
 		events = new Map();
-		inst = mitt(events);
+		inst = atch(events);
 	});
 
 	describe('properties', () => {
@@ -102,6 +102,52 @@ describe('mitt#', () => {
 			inst.on('foo', foo);
 			inst.on('foo', foo);
 			expect(events.get('foo')).to.deep.equal([foo, foo]);
+		});
+
+		it('should return the event remover', () => {
+			const foo = () => {};
+			const remover = inst.on('foo', foo);
+			expect(remover).to.be.a('function');
+			remover();
+			expect(events.get('foo')).to.be.empty;
+		});
+	});
+
+	describe('once()', () => {
+		it('should be a function', () => {
+			expect(inst).to.have.property('once').that.is.a('function');
+		});
+
+		it('should register handler for type', () => {
+			const foo = () => {};
+			inst.once('foo', foo);
+			expect(events.get('foo')).to.have.length(1);
+		});
+
+		it('should return the event remover', () => {
+			const foo = () => {};
+			const remover = inst.once('foo', foo);
+			expect(remover).to.be.a('function');
+			remover();
+			expect(events.get('foo')).to.be.empty;
+		});
+	});
+
+	describe('waitFor()', () => {
+		it('should be a function', () => {
+			expect(inst).to.have.property('waitFor').that.is.a('function');
+		});
+
+		it('should return a promise', () => {
+			expect(inst.waitFor('foo')).to.be.a('promise');
+		});
+
+		it('should resolve with the event argument', async () => {
+			const event = { a: 'b' };
+			const promise = inst.waitFor('foo');
+			inst.emit('foo', event);
+			const result = await promise;
+			expect(result).to.deep.equal(event);
 		});
 	});
 
