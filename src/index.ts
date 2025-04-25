@@ -77,11 +77,11 @@ export default function atch<Events extends Record<EventType, unknown>>(
 		 * @memberOf atch
 		 */
 		on<Key extends keyof Events>(type: Key, handler: GenericEventHandler) {
-			const handlers: Array<GenericEventHandler> | undefined = all!.get(type);
+			const handlers: Array<GenericEventHandler> | undefined = all.get(type);
 			if (handlers) {
 				handlers.push(handler);
 			} else {
-				all!.set(type, [handler] as EventHandlerList<Events[keyof Events]>);
+				all.set(type, [handler] as EventHandlerList<Events[keyof Events]>);
 			}
 			return () => instance.off(type, handler);
 		},
@@ -121,12 +121,12 @@ export default function atch<Events extends Record<EventType, unknown>>(
 		 * @memberOf atch
 		 */
 		off<Key extends keyof Events>(type: Key, handler?: GenericEventHandler) {
-			const handlers: Array<GenericEventHandler> | undefined = all!.get(type);
+			const handlers: Array<GenericEventHandler> | undefined = all.get(type);
 			if (handlers) {
 				if (handler) {
 					handlers.splice(handlers.indexOf(handler) >>> 0, 1);
 				} else {
-					all!.set(type, []);
+					all.set(type, []);
 				}
 			}
 		},
@@ -142,7 +142,7 @@ export default function atch<Events extends Record<EventType, unknown>>(
 		 * @memberOf atch
 		 */
 		emit<Key extends keyof Events>(type: Key, evt?: Events[Key]) {
-			let handlers = all!.get(type);
+			let handlers = all.get(type);
 			if (handlers) {
 				(handlers as EventHandlerList<Events[keyof Events]>)
 					.slice()
@@ -151,7 +151,7 @@ export default function atch<Events extends Record<EventType, unknown>>(
 					});
 			}
 
-			handlers = all!.get('*');
+			handlers = all.get('*');
 			if (handlers) {
 				(handlers as WildCardEventHandlerList<Events>)
 					.slice()
