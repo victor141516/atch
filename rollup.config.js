@@ -6,7 +6,7 @@ export default {
 	input: 'src/index.ts',
 	output: [
 		{
-			file: 'dist/atch.cjs',
+			file: 'dist/atch.js',
 			format: 'cjs',
 			sourcemap: true
 		},
