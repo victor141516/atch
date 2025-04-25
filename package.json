@@ -1,27 +1,24 @@
 {
   "name": "@victor141516/atch",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Tiny 200b functional Event Emitter / pubsub. Forked from mitt.",
+  "type": "module",
   "module": "dist/atch.mjs",
-  "main": "dist/atch.js",
-  "jsnext:main": "dist/atch.mjs",
-  "umd:main": "dist/atch.umd.js",
-  "source": "src/index.ts",
-  "typings": "index.d.ts",
+  "main": "dist/atch.cjs",
   "exports": {
-    "types": "./index.d.ts",
+    "types": "./dist/index.d.ts",
     "module": "./dist/atch.mjs",
     "import": "./dist/atch.mjs",
     "require": "./dist/atch.js",
     "default": "./dist/atch.mjs"
   },
   "scripts": {
-    "test": "npm-run-all --silent typecheck lint mocha test-types",
-    "mocha": "mocha test",
-    "test-types": "tsc test/test-types-compilation.ts --noEmit --strict",
+    "test": "npm-run-all --silent typecheck lint vitest test-types",
+    "vitest": "vitest run",
+    "test-types": "tsc test/index.types-spec.ts --noEmit --strict",
     "lint": "eslint src test --ext ts --ext js",
     "typecheck": "tsc --noEmit",
-    "bundle": "microbundle -f es,cjs,umd",
+    "bundle": "rollup -c",
     "build": "npm-run-all --silent clean -p bundle -s docs",
     "clean": "rimraf dist",
     "docs": "documentation readme src/index.ts --section API -q --parse-extension ts",
@@ -41,46 +38,26 @@
   ],
   "license": "MIT",
   "files": [
-    "dist",
-    "index.d.ts"
+    "dist"
   ],
-  "mocha": {
-    "extension": [
-      "ts"
-    ],
-    "require": [
-      "ts-node/register",
-      "esm"
-    ],
-    "spec": [
-      "test/*_test.ts"
-    ]
-  },
   "prettier": {
     "singleQuote": true,
     "trailingComma": "none"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.11",
-    "@types/mocha": "^7.0.2",
-    "@types/sinon": "^9.0.4",
-    "@types/sinon-chai": "^3.2.4",
-    "@typescript-eslint/eslint-plugin": "^5.61.0",
-    "@typescript-eslint/parser": "^5.61.0",
-    "chai": "^4.2.0",
-    "documentation": "^14.0.2",
-    "eslint": "^7.32.0",
-    "eslint-config-developit": "^1.2.0",
-    "eslint-plugin-compat": "^4.1.4",
-    "esm": "^3.2.25",
-    "microbundle": "^0.12.3",
-    "mocha": "^8.0.1",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.8",
-    "rimraf": "^3.0.2",
-    "sinon": "^9.0.2",
-    "sinon-chai": "^3.5.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
+    "@rollup/plugin-commonjs": "28.0.3",
+    "@rollup/plugin-node-resolve": "16.0.1",
+    "@rollup/plugin-typescript": "12.1.2",
+    "@typescript-eslint/eslint-plugin": "8.31.0",
+    "@typescript-eslint/parser": "8.31.0",
+    "documentation": "14.0.3",
+    "eslint": "9.25.1",
+    "npm-run-all": "4.1.5",
+    "prettier": "3.5.3",
+    "rimraf": "6.0.1",
+    "rollup": "4.40.0",
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.31.0",
+    "vitest": "3.1.2"
   }
 }

@@ -1,8 +1,5 @@
 import atch, { Emitter, EventHandlerMap } from '..';
-import chai, { expect } from 'chai';
-import { spy } from 'sinon';
-import sinonChai from 'sinon-chai';
-chai.use(sinonChai);
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('atch', () => {
 	it('should default export be a function', () => {
@@ -10,15 +7,15 @@ describe('atch', () => {
 	});
 
 	it('should accept an optional event handler map', () => {
-		expect(() => atch(new Map())).not.to.throw;
+		expect(() => atch(new Map())).not.toThrow();
 		const map = new Map();
-		const a = spy();
-		const b = spy();
+		const a = vi.fn();
+		const b = vi.fn();
 		map.set('foo', [a, b]);
 		const events = atch<{ foo: undefined }>(map);
 		events.emit('foo');
-		expect(a).to.have.been.calledOnce;
-		expect(b).to.have.been.calledOnce;
+		expect(a).toHaveBeenCalledOnce();
+		expect(b).toHaveBeenCalledOnce();
 	});
 });
 
@@ -109,7 +106,7 @@ describe('atch#', () => {
 			const remover = inst.on('foo', foo);
 			expect(remover).to.be.a('function');
 			remover();
-			expect(events.get('foo')).to.be.empty;
+			expect(events.get('foo')).toStrictEqual([]);
 		});
 	});
 
@@ -129,7 +126,7 @@ describe('atch#', () => {
 			const remover = inst.once('foo', foo);
 			expect(remover).to.be.a('function');
 			remover();
-			expect(events.get('foo')).to.be.empty;
+			expect(events.get('foo')).toStrictEqual([]);
 		});
 	});
 
@@ -161,7 +158,7 @@ describe('atch#', () => {
 			inst.on('foo', foo);
 			inst.off('foo', foo);
 
-			expect(events.get('foo')).to.be.empty;
+			expect(events.get('foo')).toStrictEqual([]);
 		});
 
 		it('should NOT normalize case', () => {
@@ -174,9 +171,9 @@ describe('atch#', () => {
 			inst.off('Bar', foo);
 			inst.off('baz:baT!', foo);
 
-			expect(events.get('FOO')).to.be.empty;
+			expect(events.get('FOO')).toStrictEqual([]);
 			expect(events.has('foo')).to.equal(false);
-			expect(events.get('Bar')).to.be.empty;
+			expect(events.get('Bar')).toStrictEqual([]);
 			expect(events.has('bar')).to.equal(false);
 			expect(events.get('baz:bat!')).to.have.lengthOf(1);
 		});
@@ -220,31 +217,35 @@ describe('atch#', () => {
 		});
 
 		it('should NOT ignore case', () => {
-			const onFoo = spy(),
-				onFOO = spy();
+			const onFoo = vi.fn(),
+				onFOO = vi.fn();
 			events.set('Foo', [onFoo]);
 			events.set('FOO', [onFOO]);
 
 			inst.emit('Foo', 'Foo arg');
 			inst.emit('FOO', 'FOO arg');
 
-			expect(onFoo).to.have.been.calledOnce.and.calledWith('Foo arg');
-			expect(onFOO).to.have.been.calledOnce.and.calledWith('FOO arg');
+			expect(onFoo).toHaveBeenCalledOnce();
+			expect(onFoo).toBeCalledWith('Foo arg');
+			expect(onFOO).toHaveBeenCalledOnce();
+			expect(onFOO).toBeCalledWith('FOO arg');
 		});
 
 		it('should invoke * handlers', () => {
-			const star = spy(),
+			const star = vi.fn(),
 				ea = { a: 'a' },
 				eb = { b: 'b' };
 
 			events.set('*', [star]);
 
 			inst.emit('foo', ea);
-			expect(star).to.have.been.calledOnce.and.calledWith('foo', ea);
-			star.resetHistory();
+			expect(star).toHaveBeenCalledOnce();
+			expect(star).toBeCalledWith('foo', ea);
+			star.mockClear();
 
 			inst.emit('bar', eb);
-			expect(star).to.have.been.calledOnce.and.calledWith('bar', eb);
+			expect(star).toHaveBeenCalledOnce();
+			expect(star).toBeCalledWith('bar', eb);
 		});
 	});
 });

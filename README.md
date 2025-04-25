@@ -1,30 +1,30 @@
 <p align="center">
-  <img src="https://i.imgur.com/BqsX9NT.png" width="300" height="300" alt="atch">
+  <img src="https://i.imgur.com/tNMLHvy.png" width="274" height="323" alt="atch">
   <br>
   <a href="https://www.npmjs.org/package/@victor141516/atch"><img src="https://img.shields.io/npm/v/atch.svg" alt="npm"></a>
   <img src="https://github.com/victor141516/atch/workflows/CI/badge.svg" alt="build status">
   <a href="https://unpkg.com/atch/dist/atch.js"><img src="https://img.badgesize.io/https://unpkg.com/atch/dist/atch.js?compression=gzip" alt="gzip size"></a>
 </p>
 
-# Atch
+# Atch (updated fork of [Mitt](https://github.com/developit/mitt))
 
 > Tiny 200b functional event emitter / pubsub.
 
-- **Microscopic:** weighs less than 200 bytes gzipped
-- **Useful:** a wildcard `"*"` event type listens to all events
-- **Familiar:** same names & ideas as [Node's EventEmitter](https://nodejs.org/api/events.html#events_class_eventemitter)
-- **Functional:** methods don't rely on `this`
+*   **Microscopic:** weighs less than 200 bytes gzipped
+*   **Useful:** a wildcard `"*"` event type listens to all events
+*   **Familiar:** same names & ideas as [Node's EventEmitter](https://nodejs.org/api/events.html#events_class_eventemitter)
+*   **Functional:** methods don't rely on `this`
 
 Atch was made for the browser, but works in any JavaScript runtime. It has no dependencies and supports IE9+.
 
 ## Table of Contents
 
-- [Install](#install)
-- [Usage](#usage)
-- [Examples & Demos](#examples--demos)
-- [API](#api)
-- [Contribute](#contribute)
-- [License](#license)
+*   [Install](#install)
+*   [Usage](#usage)
+*   [Examples & Demos](#examples--demos)
+*   [API](#api)
+*   [Contribute](#contribute)
+*   [License](#license)
 
 ## Install
 
@@ -109,7 +109,7 @@ const emitter: Emitter<Events> = atch<Events>();
   <img src="https://i.imgur.com/CjBgOfJ.png" width="278" alt="preact + atch preview">
 </a>
 
----
+***
 
 ## API
 
@@ -117,18 +117,18 @@ const emitter: Emitter<Events> = atch<Events>();
 
 #### Table of Contents
 
-- [atch](#atch)
-- [all](#all)
-- [on](#on)
-  - [Parameters](#parameters)
-- [once](#once)
-  - [Parameters](#parameters-1)
-- [waitFor](#waitfor)
-  - [Parameters](#parameters-2)
-- [off](#off)
-  - [Parameters](#parameters-3)
-- [emit](#emit)
-  - [Parameters](#parameters-4)
+*   [atch](#atch)
+*   [all](#all)
+*   [on](#on)
+    *   [Parameters](#parameters)
+*   [once](#once)
+    *   [Parameters](#parameters-1)
+*   [waitFor](#waitfor)
+    *   [Parameters](#parameters-2)
+*   [off](#off)
+    *   [Parameters](#parameters-3)
+*   [emit](#emit)
+    *   [Parameters](#parameters-4)
 
 ### atch
 
@@ -146,8 +146,8 @@ Register an event handler for the given type.
 
 #### Parameters
 
-- `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** Type of event to listen for, or `'*'` for all events
-- `handler` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** Function to call in response to given event
+*   `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** Type of event to listen for, or `'*'` for all events
+*   `handler` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** Function to call in response to given event
 
 Returns **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** De-register function which will undo the event registration
 
@@ -157,8 +157,8 @@ Register an event handler for the given type that will only be called once.
 
 #### Parameters
 
-- `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** Type of event to listen for, or `'*'` for all events
-- `handler` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** Function to call in response to given event
+*   `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** Type of event to listen for, or `'*'` for all events
+*   `handler` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** Function to call in response to given event
 
 Returns **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** De-register function which will undo the event registration
 
@@ -168,7 +168,7 @@ Wait for the next event of type to be emitted.
 
 #### Parameters
 
-- `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** Type of event to wait for
+*   `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** Type of event to wait for
 
 Returns **[Promise](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise)\<Any>** Promise that will resolve when the event is emitted
 
@@ -179,8 +179,8 @@ If `handler` is omitted, all handlers of the given type are removed.
 
 #### Parameters
 
-- `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** Type of event to unregister `handler` from (`'*'` to remove a wildcard handler)
-- `handler` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)?** Handler function to remove
+*   `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** Type of event to unregister `handler` from (`'*'` to remove a wildcard handler)
+*   `handler` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)?** Handler function to remove
 
 ### emit
 
@@ -191,8 +191,8 @@ Note: Manually firing '\*' handlers is not supported.
 
 #### Parameters
 
-- `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** The event type to invoke
-- `evt` **Any?** Any value (object is recommended and powerful), passed to each handler
+*   `type` **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | [symbol](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol))** The event type to invoke
+*   `evt` **Any?** Any value (object is recommended and powerful), passed to each handler
 
 ## Contribute
 
@@ -208,15 +208,15 @@ If don't, just open a [new clear and descriptive issue](../../issues/new).
 
 Pull requests are the greatest contributions, so be sure they are focused in scope, and do avoid unrelated commits.
 
-- Fork it!
-- Clone your fork: `git clone https://github.com/<your-username>/atch`
-- Navigate to the newly cloned directory: `cd atch`
-- Create a new branch for the new feature: `git checkout -b my-new-feature`
-- Install the tools necessary for development: `npm install`
-- Make your changes.
-- Commit your changes: `git commit -am 'Add some feature'`
-- Push to the branch: `git push origin my-new-feature`
-- Submit a pull request with full remarks documenting your changes.
+*   Fork it!
+*   Clone your fork: `git clone https://github.com/<your-username>/atch`
+*   Navigate to the newly cloned directory: `cd atch`
+*   Create a new branch for the new feature: `git checkout -b my-new-feature`
+*   Install the tools necessary for development: `npm install`
+*   Make your changes.
+*   Commit your changes: `git commit -am 'Add some feature'`
+*   Push to the branch: `git push origin my-new-feature`
+*   Submit a pull request with full remarks documenting your changes.
 
 ## License
 

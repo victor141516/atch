@@ -2,7 +2,7 @@
 	"compileOnSave": false,
 	"compilerOptions": {
 		"strict": true,
-		"noEmit": true,
+		"composite": true,
 		"declaration": true,
 		"moduleResolution": "node",
 		"skipLibCheck": true,
@@ -11,11 +11,6 @@
 		"declarationDir": "dist"
 	},
 	"include": [
-		"src/*.ts",
-	],
-	"references": [
-		{
-			"path": "./tsconfig.test.json"
-		}
+		"test/*.ts",
 	]
 }
