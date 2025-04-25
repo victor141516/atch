@@ -1,6 +1,6 @@
 {
   "name": "@victor141516/atch",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Tiny 200b functional Event Emitter / pubsub. Forked from mitt.",
   "type": "module",
   "module": "dist/atch.mjs",

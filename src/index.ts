@@ -94,11 +94,9 @@ export default function atch<Events extends Record<EventType, unknown>>(
 		 * @memberOf atch
 		 */
 		once<Key extends keyof Events>(type: Key, handler: GenericEventHandler) {
-			const onceHandler: GenericEventHandler = (
-				...args: Parameters<GenericEventHandler>
-			) => {
+			const onceHandler: GenericEventHandler = (arg0, arg1) => {
 				instance.off(type, onceHandler);
-				return handler(...(args as [any, any]));
+				return handler(arg0 as keyof Events & Events[keyof Events], arg1);
 			};
 			return instance.on(type, onceHandler);
 		},
